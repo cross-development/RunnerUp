@@ -3,6 +3,7 @@ using RunnerUp.Models;
 using System.Diagnostics;
 
 namespace RunnerUp.Controllers;
+
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
