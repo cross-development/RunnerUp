@@ -1,11 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RunnerUp.Data;
 
 namespace RunnerUp.Controllers;
 
 public class ClubController : Controller
 {
+    private readonly ApplicationDbContext _context;
+
+    public ClubController(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
     public IActionResult Index()
     {
-        return View();
+        var clubs = _context.Clubs.ToList();
+
+        return View(clubs);
     }
 }

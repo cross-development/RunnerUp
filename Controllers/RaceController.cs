@@ -1,11 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RunnerUp.Data;
 
 namespace RunnerUp.Controllers;
 
 public class RaceController : Controller
 {
+    private readonly ApplicationDbContext _context;
+
+    public RaceController(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
     public IActionResult Index()
     {
-        return View();
+        var races = _context.Races.ToList();
+
+        return View(races);
     }
 }
