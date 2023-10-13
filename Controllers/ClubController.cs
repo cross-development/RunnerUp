@@ -1,21 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RunnerUp.Data;
+using RunnerUp.Interfaces;
 
 namespace RunnerUp.Controllers;
 
 public class ClubController : Controller
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IClubRepository _clubRepository;
 
-    public ClubController(ApplicationDbContext context)
+    public ClubController(IClubRepository clubRepository)
     {
-        _context = context;
+        _clubRepository = clubRepository;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var clubs = _context.Clubs.ToList();
+        var clubs = await _clubRepository.GetAllAsync();
 
         return View(clubs);
+    }
+
+    public async Task<IActionResult> Detail(int id)
+    {
+        var club = await _clubRepository.GetByIdAsync(id);
+
+        return View(club);
     }
 }

@@ -1,21 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RunnerUp.Data;
+using RunnerUp.Interfaces;
 
 namespace RunnerUp.Controllers;
 
 public class RaceController : Controller
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IRaceRepository _raceRepository;
 
-    public RaceController(ApplicationDbContext context)
+    public RaceController(IRaceRepository raceRepository)
     {
-        _context = context;
+        _raceRepository = raceRepository;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var races = _context.Races.ToList();
+        var races = await _raceRepository.GetAllAsync();
 
         return View(races);
+    }
+
+    public async Task<IActionResult> Detail(int id)
+    {
+        var race = await _raceRepository.GetByIdAsync(id);
+
+        return View(race);
     }
 }
