@@ -1,0 +1,55 @@
+﻿@using RunnerUp.Data.Enum
+
+@model Club
+
+@{
+    ViewData["Title"] = "Create Club Page";
+}
+
+<form method="post" asp-action="Create">
+    <div class="mb-3">
+        <label asp-for="Title" for="title" class="form-label">Title</label>
+        <input asp-for="Title" type="text" class="form-control" id="title">
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" for="description" class="form-label">Description</label>
+        <input asp-for="Description" type="text" class="form-control" id="description">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Image" for="image" class="form-label">Image</label>
+        <input asp-for="Image" type="text" class="form-control" id="image">
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ClubCategory" for="clubCategory" class="form-label">Club Category</label>
+        <select asp-for="ClubCategory" asp-items="@Html.GetEnumSelectList<ClubCategory>()" id="clubCategory" class="form-control">
+            <option>--Select--</option>
+        </select>
+        <span asp-validation-for="ClubCategory" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Address.Street" for="street" class="form-label">Street</label>
+        <input asp-for="Address.Street" type="text" class="form-control" id="street">
+        <span asp-validation-for="Address.Street" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Address.City" for="city" class="form-label">City</label>
+        <input asp-for="Address.City" type="text" class="form-control" id="city">
+        <span asp-validation-for="Address.City" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Address.State" for="state" class="form-label">State</label>
+        <input asp-for="Address.State" type="text" class="form-control" id="state">
+        <span asp-validation-for="Address.State" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
