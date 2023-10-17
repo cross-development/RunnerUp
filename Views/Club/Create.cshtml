@@ -1,12 +1,13 @@
 ﻿@using RunnerUp.Data.Enum
+@using RunnerUp.ViewModels
 
-@model Club
+@model CreateClubViewModel
 
 @{
     ViewData["Title"] = "Create Club Page";
 }
 
-<form method="post" asp-action="Create">
+<form method="post" asp-action="Create" enctype="multipart/form-data">
     <div class="mb-3">
         <label asp-for="Title" for="title" class="form-label">Title</label>
         <input asp-for="Title" type="text" class="form-control" id="title">
@@ -21,7 +22,7 @@
 
     <div class="mb-3">
         <label asp-for="Image" for="image" class="form-label">Image</label>
-        <input asp-for="Image" type="text" class="form-control" id="image">
+        <input asp-for="Image" type="file" class="form-control" id="image">
         <span asp-validation-for="Image" class="text-danger"></span>
     </div>
 

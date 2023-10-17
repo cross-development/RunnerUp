@@ -1,16 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RunnerUp.Interfaces;
 using RunnerUp.Models;
+using RunnerUp.ViewModels;
 
 namespace RunnerUp.Controllers;
 
 public class ClubController : Controller
 {
     private readonly IClubRepository _clubRepository;
+    private readonly IPhotoService _photoService;
 
-    public ClubController(IClubRepository clubRepository)
+    public ClubController(IClubRepository clubRepository, IPhotoService photoService)
     {
         _clubRepository = clubRepository;
+        _photoService = photoService;
     }
 
     [HttpGet]
@@ -36,15 +39,35 @@ public class ClubController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(Club club)
+    public async Task<IActionResult> Create(CreateClubViewModel clubViewModel)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            return View(club);
+            var result = await _photoService.AddPhotoAsync(clubViewModel.Image);
+
+            var club = new Club
+            {
+                Title = clubViewModel.Title,
+                Description = clubViewModel.Description,
+                Image = result.Url.ToString(),
+                Address = new Address
+                {
+                    Street = clubViewModel.Address.Street,
+                    City = clubViewModel.Address.City,
+                    State = clubViewModel.Address.State
+                }
+            };
+
+            _clubRepository.Add(club);
+
+            return RedirectToAction("Index");
+
+        }
+        else
+        {
+            ModelState.AddModelError("error", "Photo uploaded failed");
         }
 
-        _clubRepository.Add(club);
-
-        return RedirectToAction("Index");
+        return View(clubViewModel);
     }
 }
