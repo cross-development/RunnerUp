@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using RunnerUp.Models;
-using System.Diagnostics;
 
 namespace RunnerUp.Controllers;
 
