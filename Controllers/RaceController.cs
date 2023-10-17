@@ -1,16 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RunnerUp.Interfaces;
 using RunnerUp.Models;
+using RunnerUp.ViewModels;
 
 namespace RunnerUp.Controllers;
 
 public class RaceController : Controller
 {
     private readonly IRaceRepository _raceRepository;
+    private readonly IPhotoService _photoService;
 
-    public RaceController(IRaceRepository raceRepository)
+    public RaceController(IRaceRepository raceRepository, IPhotoService photoService)
     {
         _raceRepository = raceRepository;
+        _photoService = photoService;
     }
 
     [HttpGet]
@@ -36,15 +39,35 @@ public class RaceController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(Race race)
+    public async Task<IActionResult> Create(CreateRaceViewModel raceViewModel)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            return View(race);
+            var result = await _photoService.AddPhotoAsync(raceViewModel.Image);
+
+            var race = new Race
+            {
+                Title = raceViewModel.Title,
+                Description = raceViewModel.Description,
+                Image = result.Url.ToString(),
+                Address = new Address
+                {
+                    Street = raceViewModel.Address.Street,
+                    City = raceViewModel.Address.City,
+                    State = raceViewModel.Address.State
+                }
+            };
+
+            _raceRepository.Add(race);
+
+            return RedirectToAction("Index");
+
+        }
+        else
+        {
+            ModelState.AddModelError("error", "Photo uploaded failed");
         }
 
-        _raceRepository.Add(race);
-
-        return RedirectToAction("Index");
+        return View(raceViewModel);
     }
 }
