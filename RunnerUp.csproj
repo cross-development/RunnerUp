@@ -9,7 +9,6 @@
 	<ItemGroup>
 	  <Folder Include="Data\Enum\" />
 	  <Folder Include="Helpers\" />
-	  <Folder Include="ViewModels\" />
 	  <Folder Include="Services\" />
 	</ItemGroup>
 
