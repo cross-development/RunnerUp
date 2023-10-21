@@ -1,13 +1,15 @@
 ﻿@using RunnerUp.Data.Enum
 @using RunnerUp.ViewModels
 
-@model CreateRaceViewModel
+@model EditRaceViewModel
 
 @{
-    ViewData["Title"] = "Create Race Page";
+    ViewData["Title"] = "Edit Race Page";
 }
 
 <form method="post" asp-action="Create" enctype="multipart/form-data">
+    <input type="hidden" value="AddressId" id="AddressId" />
+
     <div class="mb-3">
         <label asp-for="Title" for="title" class="form-label">Title</label>
         <input asp-for="Title" type="text" class="form-control" id="title">
@@ -29,7 +31,7 @@
     <div class="mb-3">
         <label asp-for="RaceCategory" for="raceCategory" class="form-label">Club Category</label>
         <select asp-for="RaceCategory" asp-items="@Html.GetEnumSelectList<RaceCategory>()" id="raceCategory" class="form-control">
-            <option>--Select--</option>
+            <option selected="selected" value="">--Select--</option>
         </select>
         <span asp-validation-for="RaceCategory" class="text-danger"></span>
     </div>

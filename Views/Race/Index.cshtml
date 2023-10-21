@@ -21,17 +21,20 @@
                             <div class="d-flex justify-content-between align-races-center">
                                 <div class="btn-group">
                                     <a type="button"
-                                            asp-controller="Race"
-                                            asp-action="Detail"
-                                            asp-route-id="@race.Id"
-                                            class="btn btn-sm btn-outline-secondary">
+                                       asp-controller="Race"
+                                       asp-action="Detail"
+                                       asp-route-id="@race.Id"
+                                       class="btn btn-sm btn-outline-secondary">
                                         View
                                     </a>
 
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-secondary">
+                                    <a type="button"
+                                       asp-controller="Race"
+                                       asp-action="Edit"
+                                       asp-route-id="@race.Id"
+                                       class="btn btn-sm btn-outline-secondary">
                                         Edit
-                                    </button>
+                                    </a>
                                 </div>
 
                                 <small class="text-muted">@race.RaceCategory</small>

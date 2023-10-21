@@ -70,4 +70,72 @@ public class RaceController : Controller
 
         return View(raceViewModel);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var race = await _raceRepository.GetByIdAsync(id);
+
+        if (race == null)
+        {
+            return View("Error");
+        }
+
+        var raceViewModel = new EditRaceViewModel
+        {
+            Title = race.Title,
+            Description = race.Description,
+            AddressId = race.AddressId,
+            Address = race.Address,
+            Url = race.Image,
+            RaceCategory = race.RaceCategory
+        };
+
+        return View(raceViewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(int id, EditRaceViewModel editRaceViewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            ModelState.AddModelError("error", "Failed to edit race");
+
+            return View("Edit", editRaceViewModel);
+        }
+
+        var userRace = await _raceRepository.GetByIdAsyncNoTracking(id);
+
+        if (userRace == null)
+        {
+            return View(editRaceViewModel);
+        }
+
+        try
+        {
+            await _photoService.DeletePhotoAsync(userRace.Image);
+        }
+        catch (Exception)
+        {
+            ModelState.AddModelError("error", "Could not delete photo");
+
+            return View(editRaceViewModel);
+        }
+
+        var photoResult = await _photoService.AddPhotoAsync(editRaceViewModel.Image);
+
+        var race = new Race
+        {
+            Id = id,
+            Title = editRaceViewModel.Title,
+            Description = editRaceViewModel.Description,
+            Image = photoResult.Url.ToString(),
+            AddressId = editRaceViewModel.AddressId,
+            Address = editRaceViewModel.Address
+        };
+
+        _raceRepository.Update(race);
+
+        return RedirectToAction("Index");
+    }
 }
