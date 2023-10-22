@@ -137,4 +137,27 @@ public class ClubController : Controller
 
         return RedirectToAction("Index");
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var clubDetails = await _clubRepository.GetByIdAsync(id);
+
+        return clubDetails == null ? View("Error") : View(clubDetails);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public async Task<IActionResult> DeleteCub(int id)
+    {
+        var clubDetails = await _clubRepository.GetByIdAsync(id);
+
+        if (clubDetails == null)
+        {
+            return View("Error");
+        }
+
+        _clubRepository.Delete(clubDetails);
+
+        return RedirectToAction("Index");
+    }
 }

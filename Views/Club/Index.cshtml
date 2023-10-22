@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Club>
 
 @{
-    ViewData["Title"] = "Club Page";
+    ViewData["Title"] = "Clubs Page";
 }
 
 <div class="album py-5 bg-light">
@@ -34,6 +34,14 @@
                                        asp-route-id="@item.Id"
                                        class="btn btn-sm btn-outline-secondary">
                                         Edit
+                                    </a>
+
+                                    <a type="button"
+                                       asp-controller="Club"
+                                       asp-action="Delete"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        Delete
                                     </a>
                                 </div>
 
