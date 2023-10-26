@@ -1,15 +1,15 @@
 ﻿@using RunnerUp.ViewModels
 
-@model LoginViewModel
+@model RegisterViewModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
 }
 
 <div class="row">
     <div class="col-md-6 offset-3">
         <p>
-            <h4>Log in to you account</h4>
+            <h4>Sign up for a new account</h4>
         </p>
 
         @if (TempData["Error"] != null)
@@ -21,7 +21,7 @@
         
         <div class="row">
             <div class="col-md-8 offset-2">
-                <form asp-action="Login">
+                <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     
                     <div class="mb-3">
@@ -36,8 +36,14 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     
+                    <div class="mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
                     <div class="d-flex flex-column">
-                        <button type="submit" class="btn btn-outline-success mb-3">Log in</button>
+                        <button type="submit" class="btn btn-outline-success mb-3">Sign up</button>
                         <a type="button" class="btn btn-outline-secondary" asp-controller="Race" asp-action="Index">Cancel</a>
                     </div>
                 </form>
