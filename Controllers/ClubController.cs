@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RunnerUp.Interfaces;
 using RunnerUp.Models;
+using RunnerUp.Extensions;
+using RunnerUp.Interfaces;
 using RunnerUp.ViewModels;
 
 namespace RunnerUp.Controllers;
@@ -9,11 +10,16 @@ public class ClubController : Controller
 {
     private readonly IClubRepository _clubRepository;
     private readonly IPhotoService _photoService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ClubController(IClubRepository clubRepository, IPhotoService photoService)
+    public ClubController(
+        IClubRepository clubRepository, 
+        IPhotoService photoService, 
+        IHttpContextAccessor httpContextAccessor)
     {
         _clubRepository = clubRepository;
         _photoService = photoService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpGet]
@@ -35,7 +41,11 @@ public class ClubController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        return View();
+        var currentUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
+
+        var createClubViewModel = new CreateClubViewModel { AppUserId = currentUserId };
+
+        return View(createClubViewModel);
     }
 
     [HttpPost]
@@ -50,6 +60,7 @@ public class ClubController : Controller
                 Title = createClubViewModel.Title,
                 Description = createClubViewModel.Description,
                 Image = result.Url.ToString(),
+                AppUserId = createClubViewModel.AppUserId,
                 Address = new Address
                 {
                     Street = createClubViewModel.Address.Street,

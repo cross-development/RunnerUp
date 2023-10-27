@@ -28,21 +28,24 @@
                                         View
                                     </a>
 
-                                    <a type="button"
-                                       asp-controller="Race"
-                                       asp-action="Edit"
-                                       asp-route-id="@race.Id"
-                                       class="btn btn-sm btn-outline-secondary">
-                                        Edit
-                                    </a>
+                                    @if (User.Identity is { IsAuthenticated: true } && User.IsInRole("admin"))
+                                    {
+                                        <a type="button"
+                                           asp-controller="Race"
+                                           asp-action="Edit"
+                                           asp-route-id="@race.Id"
+                                           class="btn btn-sm btn-outline-secondary">
+                                            Edit
+                                        </a>
 
-                                    <a type="button"
-                                       asp-controller="Race"
-                                       asp-action="Delete"
-                                       asp-route-id="@race.Id"
-                                       class="btn btn-sm btn-outline-secondary">
-                                        Delete
-                                    </a>
+                                        <a type="button"
+                                           asp-controller="Race"
+                                           asp-action="Delete"
+                                           asp-route-id="@race.Id"
+                                           class="btn btn-sm btn-outline-secondary">
+                                            Delete
+                                        </a>
+                                    }
                                 </div>
 
                                 <small class="text-muted">@race.RaceCategory</small>

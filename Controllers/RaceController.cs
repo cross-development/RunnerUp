@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RunnerUp.Extensions;
 using RunnerUp.Interfaces;
 using RunnerUp.Models;
 using RunnerUp.ViewModels;
@@ -9,11 +10,16 @@ public class RaceController : Controller
 {
     private readonly IRaceRepository _raceRepository;
     private readonly IPhotoService _photoService;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public RaceController(IRaceRepository raceRepository, IPhotoService photoService)
+    public RaceController(
+        IRaceRepository raceRepository, 
+        IPhotoService photoService,
+        IHttpContextAccessor httpContextAccessor)
     {
         _raceRepository = raceRepository;
         _photoService = photoService;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpGet]
@@ -35,7 +41,11 @@ public class RaceController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        return View();
+        var currentUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
+
+        var createRaceViewModel = new CreateRaceViewModel { AppUserId = currentUserId };
+
+        return View(createRaceViewModel);
     }
 
     [HttpPost]
@@ -50,6 +60,7 @@ public class RaceController : Controller
                 Title = raceViewModel.Title,
                 Description = raceViewModel.Description,
                 Image = result.Url.ToString(),
+                AppUserId = raceViewModel.AppUserId,
                 Address = new Address
                 {
                     Street = raceViewModel.Address.Street,
@@ -61,7 +72,6 @@ public class RaceController : Controller
             _raceRepository.Add(race);
 
             return RedirectToAction("Index");
-
         }
         else
         {
