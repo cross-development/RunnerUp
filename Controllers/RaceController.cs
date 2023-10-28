@@ -22,7 +22,7 @@ public class RaceController : Controller
         _httpContextAccessor = httpContextAccessor;
     }
 
-    [HttpGet]
+    [HttpGet("races")]
     public async Task<IActionResult> Index()
     {
         var races = await _raceRepository.GetAllAsync();

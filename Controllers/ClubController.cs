@@ -22,7 +22,7 @@ public class ClubController : Controller
         _httpContextAccessor = httpContextAccessor;
     }
 
-    [HttpGet]
+    [HttpGet("clubs")]
     public async Task<IActionResult> Index()
     {
         var clubs = await _clubRepository.GetAllAsync();
