@@ -35,17 +35,11 @@
                                     @if (User.Identity is { IsAuthenticated: true } && User.IsInRole("admin"))
                                     {
                                         <a type="button"
-                                           asp-controller="User"
-                                           asp-action="Edit"
-                                           asp-route-id="@user.Id"
                                            class="btn btn-sm btn-outline-secondary">
                                             Edit
                                         </a>
 
                                         <a type="button"
-                                           asp-controller="User"
-                                           asp-action="Delete"
-                                           asp-route-id="@user.Id"
                                            class="btn btn-sm btn-outline-secondary">
                                             Delete
                                         </a>
