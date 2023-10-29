@@ -19,7 +19,7 @@ public class UserRepository : IUserRepository
         return await _context.Users.ToListAsync();
     }
 
-    public async Task<AppUser> GetByIdAsync(int id)
+    public async Task<AppUser> GetByIdAsync(string id)
     {
         return await _context.Users.FindAsync(id);
     }

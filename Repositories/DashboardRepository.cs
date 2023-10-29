@@ -38,4 +38,33 @@ public class DashboardRepository : IDashboardRepository
 
         return userClubs;
     }
+
+    public async Task<AppUser> GetUserById(string id)
+    {
+        return await _context.Users
+            .Include(user => user.Address)
+            .FirstOrDefaultAsync(user => user.Id == id);
+    }
+
+    public async Task<AppUser> GetUserByIdNoTracking(string id)
+    {
+        return await _context.Users
+            .Include(user => user.Address)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(user => user.Id == id);
+    }
+
+    public bool Update(AppUser user)
+    {
+        _context.Update(user);
+
+        return Save();
+    }
+
+    public bool Save()
+    {
+        var result = _context.SaveChanges();
+
+        return result > 0;
+    }
 }

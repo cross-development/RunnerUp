@@ -6,6 +6,7 @@ public class AppUser : IdentityUser
 {
     public int? Pace { get; set; }
     public int? Mileage { get; set; }
+    public string ProfileImageUrl { get; set; }
     public int? AddressId { get; set; }
     public Address Address { get; set; }
     public ICollection<Club> Clubs { get; set; }
